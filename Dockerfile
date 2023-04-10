@@ -18,3 +18,4 @@ COPY --from=build /coredns /coredns
 USER nonroot:nonroot
 EXPOSE 53 53/udp
 ENTRYPOINT ["/coredns"]
+CMD ["-conf", "/Corefile"]

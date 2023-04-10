@@ -6,12 +6,11 @@ package customplugin
 
 import (
 	"context"
-	"net"
-
 	"github.com/coredns/coredns/plugin"
 	clog "github.com/coredns/coredns/plugin/pkg/log"
 	"github.com/coredns/coredns/request"
 	"github.com/miekg/dns"
+	"net"
 )
 
 var log = clog.NewWithPlugin("auto")
@@ -26,6 +25,14 @@ func (c CustomPlugin) ServeDNS(ctx context.Context, w dns.ResponseWriter, r *dns
 
 	log.Infof("qname is %s", qname)
 	if qname == "example.com." {
+		m := new(dns.Msg)
+		m.SetReply(r)
+		rr, _ := dns.NewRR("example.com. 60 IN A 1.2.3.4")
+		m.Answer = append(m.Answer, rr)
+
+		w.WriteMsg(m)
+		return dns.RcodeSuccess, nil
+	} else {
 		m := new(dns.Msg)
 		m.SetReply(r)
 		m.Authoritative = true

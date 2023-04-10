@@ -15,7 +15,6 @@ func init() {
 }
 
 func setup(c *caddy.Controller) error {
-	log.Infof("customplug start")
 	c.Next() // Ignore the 'customplugin' directive
 	if c.NextArg() {
 		return plugin.Error("customplugin", c.ArgErr())
